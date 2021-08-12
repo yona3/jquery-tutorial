@@ -1,3 +1,17 @@
 h1 {
   color: rgb(21, 115, 255);
 }
+
+li {
+  display: flex;
+  align-items: center;
+}
+
+li p {
+  margin-right: 5px;
+}
+
+li button {
+  width: 24px;
+  height: 24px;
+}
