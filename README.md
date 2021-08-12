@@ -8,3 +8,10 @@
 - イベント
 - メソッド
 - TypeScriptの導入
+
+### 使用技術
+
+- jQuery
+- TypeScript
+- Webpack
+- json server
