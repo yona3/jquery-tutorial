@@ -8,7 +8,7 @@
     {
       "id": 2,
       "title": "todo2",
-      "isDone": false
+      "isDone": true
     },
     {
       "id": 3,
