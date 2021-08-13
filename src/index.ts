@@ -12,9 +12,10 @@ const $form = $("form");
 const $input = $('input[type="text"]', $form);
 
 const setTodoContent = (clone: any, todo: Todo) => {
-  const $input = $('input[type="checkbox"]', clone);
   const $li = $("li", clone);
+  const $input = $('input[type="checkbox"]', $li);
   const $p = $("p", $li);
+  const $button = $("button", $li);
 
   if (todo.isDone) $input.prop("checked", true);
   $li.attr("id", todo.id);
@@ -35,6 +36,24 @@ const setTodoContent = (clone: any, todo: Todo) => {
       const data = await res.json();
 
       if (data) $input.prop("checked", data.isDone);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  // delete todo event
+  $button.on("click", async () => {
+    try {
+      const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (data) {
+        const updatedTodoState = state.todos.filter((t) => t.id !== todo.id);
+        state.todos = updatedTodoState;
+        $li.remove();
+      }
     } catch (err) {
       console.error(err);
     }

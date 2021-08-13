@@ -18,17 +18,7 @@
     {
       "id": 4,
       "title": "todo4",
-      "isDone": false
-    },
-    {
-      "title": "todo5",
-      "isDone": true,
-      "id": 5
-    },
-    {
-      "title": "todo6",
-      "isDone": false,
-      "id": 6
+      "isDone": true
     }
   ]
 }
