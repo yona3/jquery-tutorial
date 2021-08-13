@@ -67,6 +67,7 @@ const setTodoContent = (clone: any, todo: Todo) => {
     // to check the loading operation
     setTimeout(() => {
       $loading.hide();
+      $main.fadeIn();
       $main.show();
     }, 500);
   }
