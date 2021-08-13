@@ -17,7 +17,10 @@ const setTodoContent = (clone: any, todo: Todo) => {
   const $p = $("p", $li);
   const $button = $("button", $li);
 
-  if (todo.isDone) $input.prop("checked", true);
+  if (todo.isDone) {
+    $input.prop("checked", true);
+    $p.addClass("checked");
+  }
   $li.attr("id", todo.id);
   $p.text(todo.title);
 
@@ -35,7 +38,10 @@ const setTodoContent = (clone: any, todo: Todo) => {
       });
       const data = await res.json();
 
-      if (data) $input.prop("checked", data.isDone);
+      if (data) {
+        $input.prop("checked", data.isDone);
+        $p.toggleClass("checked");
+      }
     } catch (err) {
       console.error(err);
     }
