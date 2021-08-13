@@ -1,9 +1,9 @@
 {
   "todos": [
     {
-      "id": 1,
+      "isDone": false,
       "title": "todo1",
-      "isDone": false
+      "id": 1
     },
     {
       "id": 2,

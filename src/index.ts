@@ -11,14 +11,35 @@ const templateContent = ($("#todo-template")[0] as TemplateEl).content;
 const $form = $("form");
 const $input = $('input[type="text"]', $form);
 
-const setTodoContent = (clone: any, data: Todo) => {
+const setTodoContent = (clone: any, todo: Todo) => {
   const $input = $('input[type="checkbox"]', clone);
   const $li = $("li", clone);
   const $p = $("p", $li);
 
-  if (data.isDone) $input.prop("checked", true);
-  $li.attr("id", data.id);
-  $p.text(data.title);
+  if (todo.isDone) $input.prop("checked", true);
+  $li.attr("id", todo.id);
+  $p.text(todo.title);
+
+  // update isDone event
+  $input.on("change", async () => {
+    const isDone = $input.prop("checked");
+
+    try {
+      const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isDone }),
+      });
+      const data = await res.json();
+
+      if (data) $input.prop("checked", data.isDone);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
   return clone;
 };
 
