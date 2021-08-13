@@ -7,6 +7,8 @@ const state: { todos: Todo[] } = {
   todos: [],
 };
 
+const $main = $("main");
+const $loading = $("#loading");
 const templateContent = ($("#todo-template")[0] as TemplateEl).content;
 const $form = $("form");
 const $input = $('input[type="text"]', $form);
@@ -40,21 +42,34 @@ const setTodoContent = (clone: any, todo: Todo) => {
 
 // initalize the app
 (async () => {
-  // fetch the data
-  const res = await fetch("http://localhost:3000/todos");
-  const todos = await res.json();
-  state.todos = todos;
+  $main.hide();
+  $loading.show();
 
-  const fragment = document.createDocumentFragment();
+  try {
+    // fetch the data
+    const res = await fetch("http://localhost:3000/todos");
+    const todos = await res.json();
+    state.todos = todos;
 
-  // add the todos to the DOM
-  $.each(state.todos, (_, todo) => {
-    const clone = document.importNode(templateContent, true);
-    const configuredClone = setTodoContent(clone, todo);
-    fragment.appendChild(configuredClone);
-  });
+    const fragment = document.createDocumentFragment();
 
-  $("#todos").append(fragment);
+    // add the todos to the DOM
+    $.each(state.todos, (_, todo) => {
+      const clone = document.importNode(templateContent, true);
+      const configuredClone = setTodoContent(clone, todo);
+      fragment.appendChild(configuredClone);
+    });
+
+    $("#todos").append(fragment);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    // to check the loading operation
+    setTimeout(() => {
+      $loading.hide();
+      $main.show();
+    }, 500);
+  }
 })();
 
 // todo operation
