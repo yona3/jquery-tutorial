@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "server": "json-server --watch db/db.json"
+    "serve": "json-server --watch db/db.json"
   },
   "keywords": [],
   "author": "",
