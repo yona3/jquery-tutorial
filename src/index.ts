@@ -106,6 +106,11 @@ const updateTodo = async (
     if (data) {
       $checkbox.prop("checked", data.isDone);
       $p.toggleClass("checked");
+      state.todos.map((t) => {
+        if (t.id === todo.id) {
+          t.isDone = data.isDone;
+        }
+      });
     }
   } catch (err) {
     console.error(err);
