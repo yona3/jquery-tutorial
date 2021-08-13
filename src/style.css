@@ -1,10 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+}
+
 h1 {
+  margin-top: 24px;
   color: rgb(21, 115, 255);
+}
+
+h2 {
+  margin-top: 24px;
+  font-size: 20px;
+}
+
+.description {
+  margin-top: 12px;
+}
+
+form {
+  margin-top: 24px;
+}
+
+form input {
+  padding: 4px;
+  font-size: 14px;
+}
+
+form button {
+  padding: 4px;
+}
+
+ul {
+  display: inline-block;
+  margin: 24px auto 0;
 }
 
 li {
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
 }
 
 li input[type="checkbox"] {
@@ -30,7 +69,12 @@ li button {
 }
 
 .link {
+  margin-top: 24px;
   color: rgb(21, 115, 255);
   text-decoration: underline;
   cursor: pointer;
+}
+
+#loading {
+  margin-top: 24px;
 }
