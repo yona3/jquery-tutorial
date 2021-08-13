@@ -10,6 +10,7 @@ const state: { todos: Todo[] } = {
 const templateContent = ($("#todo-template")[0] as TemplateEl).content;
 const $form = $("form");
 const $input = $('input[type="text"]', $form);
+const $aboutLink = $("#about-link");
 
 const setTodoContent = (clone: any, todo: Todo) => {
   const $li = $("li", clone);
@@ -127,4 +128,9 @@ $form.on("submit", async (e) => {
   };
 
   await addTodo(todo);
+});
+
+// about link
+$aboutLink.on("click", () => {
+  window.location.href = "/about";
 });

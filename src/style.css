@@ -28,3 +28,9 @@ li button {
 .checked {
   text-decoration: line-through;
 }
+
+.link {
+  color: rgb(21, 115, 255);
+  text-decoration: underline;
+  cursor: pointer;
+}
