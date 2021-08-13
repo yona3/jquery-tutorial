@@ -14,56 +14,25 @@ const $aboutLink = $("#about-link");
 
 const setTodoContent = (clone: any, todo: Todo) => {
   const $li = $("li", clone);
-  const $input = $('input[type="checkbox"]', $li);
+  const $checkbox = $('input[type="checkbox"]', $li);
   const $p = $("p", $li);
   const $button = $("button", $li);
 
   if (todo.isDone) {
-    $input.prop("checked", true);
+    $checkbox.prop("checked", true);
     $p.addClass("checked");
   }
   $li.attr("id", todo.id);
   $p.text(todo.title);
 
   // update isDone event
-  $input.on("change", async () => {
-    const isDone = $input.prop("checked");
-
-    try {
-      const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isDone }),
-      });
-      const data = await res.json();
-
-      if (data) {
-        $input.prop("checked", data.isDone);
-        $p.toggleClass("checked");
-      }
-    } catch (err) {
-      console.error(err);
-    }
+  $checkbox.on("change", async () => {
+    await updateTodo(todo, $checkbox, $p);
   });
 
   // delete todo event
   $button.on("click", async () => {
-    try {
-      const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-
-      if (data) {
-        const updatedTodoState = state.todos.filter((t) => t.id !== todo.id);
-        state.todos = updatedTodoState;
-        $li.remove();
-      }
-    } catch (err) {
-      console.error(err);
-    }
+    await deleteTodo(todo, $li);
   });
 
   return clone;
@@ -88,6 +57,8 @@ const setTodoContent = (clone: any, todo: Todo) => {
   $("#todos").append(fragment);
 })();
 
+// todo operation
+
 const addTodo = async (todo: Omit<Todo, "id">) => {
   try {
     // post the data
@@ -100,7 +71,6 @@ const addTodo = async (todo: Omit<Todo, "id">) => {
     });
     const data = await res.json();
     if (!data) throw new Error("No data returned");
-    console.log(data);
 
     // add the todo to the DOM
     const clone = document.importNode(templateContent, true);
@@ -108,7 +78,6 @@ const addTodo = async (todo: Omit<Todo, "id">) => {
     $("#todos").append(configuredClone);
 
     state.todos.push(data);
-    console.log(state.todos);
 
     // clear the form
     $input.val("");
@@ -117,7 +86,50 @@ const addTodo = async (todo: Omit<Todo, "id">) => {
   }
 };
 
-// add Todo
+const updateTodo = async (
+  todo: Todo,
+  $checkbox: JQuery<HTMLElement>,
+  $p: JQuery<HTMLElement>
+) => {
+  const isDone = $checkbox.prop("checked");
+
+  try {
+    const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isDone }),
+    });
+    const data = await res.json();
+
+    if (data) {
+      $checkbox.prop("checked", data.isDone);
+      $p.toggleClass("checked");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const deleteTodo = async (todo: Todo, $li: JQuery<HTMLElement>) => {
+  try {
+    const res = await fetch(`http://localhost:3000/todos/${todo.id}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+
+    if (data) {
+      const updatedTodoState = state.todos.filter((t) => t.id !== todo.id);
+      state.todos = updatedTodoState;
+      $li.remove();
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// add Todo event
 $form.on("submit", async (e) => {
   e.preventDefault();
 
